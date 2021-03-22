@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import Search from "./components/Search";
-
 import SayHi, { SayHello } from "./components/WeatherItem";
 import fakeWeatherData from "./fakeWeatherData.json";
-
 import "./App.css";
 import clear from "./img/weather-icons/clear.svg";
 import cloudy from "./img/weather-icons/cloudy.svg";
