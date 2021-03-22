@@ -53,7 +53,7 @@ class Weather_hours extends Component {
     for (var i = 1; i <= 7; i++) {
       menuItems.push(
         <div class="time">
-          <p id="hour">{fakeWeatherData.list[i].dt_txt}</p>
+          <p id="hour">{fakeWeatherData.list[i].dt_txt.substring(10,16)}</p>
           <img src={mostlycloudy} alt="snow icon" />
           <p class="temperature_daily">{fakeWeatherData.list[i].main.temp}</p>
         </div>
