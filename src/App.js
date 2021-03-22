@@ -18,39 +18,57 @@ import unknown from "./img/weather-icons/unknown.svg";
 
 class Weather_day extends Component {
   render() {
-    return (<div>
-      <section class="item">
-        <img src={mostlycloudy} alt="clear icon" />
-        <p id="status_weather">overcast clouds</p>
-        <p class="temp">Temperature <span id="temperature">10c to 11c</span></p>
-        <p class="details_temp">Himidty <span id="himidty">78%</span> Pressure <span id="pressure">100848</span></p>
-      </section>
-    </div>);
+    const data = fakeWeatherData.list[0].main;
+
+    return (
+      <div>
+        <section class="item">
+          <img src={mostlycloudy} alt="clear icon" />
+          <p id="status_weather">
+            {fakeWeatherData.list[1].weather[0].description}
+          </p>
+          <p class="temp">
+            Temperature{" "}
+            <span id="temperature">
+              {data.temp_min + " to " + data.temp_max}
+            </span>
+          </p>
+          <p class="details_temp">
+            Himidty <span id="himidty">{data.humidity}</span> Pressure
+            <span id="pressure">{data.pressure}</span>
+          </p>
+        </section>
+      </div>
+    );
   }
 }
 
 class Weather_hours extends Component {
   render() {
-    return (
-      <div class="time">
-        <p id="hour">03:00</p>
-        <img src={mostlycloudy} alt="snow icon" />
-        <p class="temperature_daily">8c</p>
-      </div>);
+    let menuItems = [];
+    for (var i = 1; i <= 7; i++) {
+      menuItems.push(
+        <div class="time">
+          <p id="hour">{fakeWeatherData.list[i].dt_txt}</p>
+          <img src={mostlycloudy} alt="snow icon" />
+          <p class="temperature_daily">{fakeWeatherData.list[i].main.temp}</p>
+        </div>
+      );
+    }
+
+    return menuItems;
   }
 }
 
-
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      name: "Hilal"
+      name: "Hilal",
     };
   }
 
-  handleInputChange = value => {
+  handleInputChange = (value) => {
     this.setState({ name: value });
   };
 
@@ -68,18 +86,8 @@ class App extends Component {
 
         <div class="container_day">
           <Weather_hours />
-          <Weather_hours />
-          <Weather_hours />
-          <Weather_hours />
-          <Weather_hours />
-          <Weather_hours />
-          <Weather_hours />
         </div>
-
-
       </div>
-
-
     );
   }
 }
