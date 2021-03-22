@@ -81,7 +81,6 @@ class App extends Component {
         <div class="app__header">
           <Search handleInput={this.handleInputChange} />
         </div>
-
         <Weather_day />
 
         <div class="container_day">
