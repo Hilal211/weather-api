@@ -4,6 +4,7 @@
 html, body{
   height: 100%;
   margin: 0;
+  background-color: #9CCEF4;
 }
 .app {
   height: 100vh;
@@ -105,5 +106,29 @@ div{
 
 .daily_item>p{
   color:#030348;
+}
+
+@media(max-width:700px){
+  .container_day{
+  flex-direction: column;
+  align-items: center;
+  }
+  .time{
+    display: flex;
+    width: 100%;
+    border-bottom: #030348 dashed 1px;
+  }
+  .time>img{
+  width: 20%;
+  height: 20%;
+  }
+  #hour{
+    margin-right: 20%;
+    align-self: center;
+    background-color: #5879C7;
+    border-radius: 50%;
+    padding: 1%;
+    width: 25%;
+  }
 }
 
