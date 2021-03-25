@@ -13,14 +13,28 @@ import rain from "./img/weather-icons/rain.svg";
 import snow from "./img/weather-icons/snow.svg";
 import storm from "./img/weather-icons/storm.svg";
 import unknown from "./img/weather-icons/unknown.svg";
-{
-  /*hello hilal*/
-}
 
-{
-  /*hello abdallah*/
-}
+
+
 class Weather_day extends Component {
+  /*componentDidMount() {
+    document.querySelector("button").addEventListener("click", display);
+    function display() {
+      var cityname = document.getElementById("input-name").value;
+  
+      if (cityname != null) {
+        fetch(
+          `http://api.openweathermap.org/data/2.5/forecast?q=${cityname}&cnt=8&units=metric&appid=868609f021b729dd6686a4845782ec8c`
+        )
+          .then((res) => res.json())
+          .then((datafetch) => {
+           return console.log(datafetch);
+          });
+      } else {
+        alert("input value");
+      }
+    }
+  }*/
   render() {
     const data = fakeWeatherData.list[0].main;
 
@@ -75,7 +89,8 @@ class App extends Component {
   handleInputChange = (value) => {
     this.setState({ name: value });
   };
-
+  
+  
   render() {
     return (
       <div className="app">
@@ -84,6 +99,7 @@ class App extends Component {
 
         <div class="app__header">
           <Search handleInput={this.handleInputChange} />
+          
         </div>
 
         <Weather_day />
