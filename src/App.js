@@ -14,6 +14,39 @@ import snow from "./img/weather-icons/snow.svg";
 import storm from "./img/weather-icons/storm.svg";
 import unknown from "./img/weather-icons/unknown.svg";
 
+function getId(id){
+  if(id<300){
+      return "storm";
+  }
+  else if(id>300 && id<499){
+      return "drizzle";
+  }
+  else if(id>500 && id<599){
+      return "rain";
+  }
+  else if(id>600 && id<699){
+      return "snow";
+  }
+  else if(id>700 && id<799){
+      return "fog";
+  }
+  else if(id==800){
+      return "clear";
+  }
+  else if(id==801){
+      return "partlycloudy";
+  }
+  else if(id>801 && id<805){
+      return "mostlycloudy";
+  }
+  }
+
+  function toCelsius(k){
+    var c;
+    c= k - 273.15;
+    c=parseInt(c)
+    return c;
+}
 
 
 class Weather_day extends Component {
@@ -48,7 +81,7 @@ class Weather_day extends Component {
           <p class="temp">
             Temperature{" "}
             <span id="temperature">
-              {data.temp_min + " to " + data.temp_max}
+              {toCelsius(data.temp_min)+"°" + " to " + toCelsius(data.temp_max)+"°C"}
             </span>
           </p>
           <p class="details_temp">
@@ -69,7 +102,7 @@ class Weather_hours extends Component {
         <div class="time">
           <p id="hour">{fakeWeatherData.list[i].dt_txt.substring(10,16)}</p>
           <img src={mostlycloudy} alt="snow icon" />
-          <p class="temperature_daily">{fakeWeatherData.list[i].main.temp}</p>
+          <p class="temperature_daily">{toCelsius(fakeWeatherData.list[i].main.temp)+"°C"}</p>
         </div>
       );
     }
