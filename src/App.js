@@ -14,38 +14,39 @@ import snow from "./img/weather-icons/snow.svg";
 import storm from "./img/weather-icons/storm.svg";
 import unknown from "./img/weather-icons/unknown.svg";
 
-function getId(id){
-  if(id<300){
-      return "storm";
-  }
-  else if(id>300 && id<499){
-      return "drizzle";
-  }
-  else if(id>500 && id<599){
-      return "rain";
-  }
-  else if(id>600 && id<699){
-      return "snow";
-  }
-  else if(id>700 && id<799){
-      return "fog";
-  }
-  else if(id==800){
-      return "clear";
-  }
-  else if(id==801){
-      return "partlycloudy";
-  }
-  else if(id>801 && id<805){
-      return "mostlycloudy";
-  }
-  }
+const api_key = "868609f021b729dd6686a4845782ec8c";
 
-  function toCelsius(k){
-    var c;
-    c= k - 273.15;
-    c=parseInt(c)
-    return c;
+function getId(id) {
+  if (id < 300) {
+    return storm;
+  }
+  else if (id >= 300 && id <= 499) {
+    return drizzle;
+  }
+  else if (id >=500 && id <= 599) {
+    return rain;
+  }
+  else if (id >= 600 && id <= 699) {
+    return snow;
+  }
+  else if (id >= 700 && id <= 799) {
+    return fog;
+  }
+  else if (id == 800) {
+    return clear;
+  }
+  else if (id == 801) {
+    return partlycloudy;
+  }
+  else if (id >= 801 && id <= 805) {
+    return mostlycloudy;
+  }
+}
+
+function toCelsius(k) {
+  var c;
+  c = Math.floor(k - 273.15);
+  return c;
 }
 
 
@@ -69,24 +70,23 @@ class Weather_day extends Component {
     }
   }*/
   render() {
-    const data = fakeWeatherData.list[0].main;
-
     return (
       <div>
         <section class="item">
-          <img src={mostlycloudy} alt="clear icon" />
+
+          <img src={getId(this.props.id)} alt="clear icon" />
           <p id="status_weather">
-            {fakeWeatherData.list[1].weather[0].description}
+            {this.props.description}
           </p>
           <p class="temp">
-            Temperature{" "}
+            Temperature &nbsp;
             <span id="temperature">
-              {toCelsius(data.temp_min)+"°" + " to " + toCelsius(data.temp_max)+"°C"}
+              {this.props.temp_min + "°" + " to " + this.props.temp_max + "°C"}
             </span>
           </p>
           <p class="details_temp">
-            Himidty <span id="himidty">{data.humidity}</span> Pressure
-            <span id="pressure">{data.pressure}</span>
+            Himidty <span id="himidty">&nbsp; {this.props.humidity}&nbsp;</span> Pressure
+            <span id="pressure">&nbsp; {this.props.pressure}</span>
           </p>
         </section>
       </div>
@@ -100,9 +100,9 @@ class Weather_hours extends Component {
     for (var i = 1; i <= 7; i++) {
       menuItems.push(
         <div class="time">
-          <p id="hour">{fakeWeatherData.list[i].dt_txt.substring(10,16)}</p>
+          <p id="hour">{fakeWeatherData.list[i].dt_txt.substring(10, 16)}</p>
           <img src={mostlycloudy} alt="snow icon" />
-          <p class="temperature_daily">{toCelsius(fakeWeatherData.list[i].main.temp)+"°C"}</p>
+          <p class="temperature_daily">{toCelsius(fakeWeatherData.list[i].main.temp) + "°C"}</p>
         </div>
       );
     }
@@ -112,18 +112,45 @@ class Weather_hours extends Component {
 }
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      name: "Hilal",
+      description: "",
+      temp_max: undefined,
+      temp_min: undefined,
+      humidity: undefined,
+      pressure: undefined,
+      id: undefined
+      
+      
     };
+    this.getWeather();
+  }
+  getWeather = async () => {
+    
+    
+    fetch(
+      `http://api.openweathermap.org/data/2.5/forecast?q=London&cnt=8&units=metric&appid=${api_key}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+
+        this.setState({
+          temp_min: data.list[0].main.temp_min,
+          temp_max: data.list[0].main.temp_max,
+          description: data.list[0].weather[0].description,
+          id:data.list[0].weather[0].id,
+          pressure: data.list[0].main.pressure,
+          humidity: data.list[0].main.humidity
+        })
+      });
   }
 
   handleInputChange = (value) => {
     this.setState({ name: value });
   };
-  
-  
+
+
   render() {
     return (
       <div className="app">
@@ -132,13 +159,19 @@ class App extends Component {
 
         <div class="app__header">
           <Search handleInput={this.handleInputChange} />
-          
+
         </div>
 
-        <Weather_day />
+        <Weather_day temp_min={this.state.temp_min}
+          temp_max={this.state.temp_max}
+          description={this.state.description}
+          pressure={this.state.pressure}
+          humidity={this.state.humidity}
+          id={this.state.id}
+        />
 
         <div class="container_day">
-          <Weather_hours />
+          <Weather_hours data={this.state.fdata}/>
         </div>
       </div>
     );
